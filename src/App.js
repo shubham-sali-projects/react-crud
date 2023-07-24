@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Cartable from "./components/Cartable";
+import Nav from "./components/Nav";
+import AddCar from "./components/AddCar";
+import EditCar from "./components/EditCar";
+import { useState } from "react";
+import Carcard from "./components/Carcard";
 
 function App() {
+  const [carToEdit, setCarToEdit] = useState({});
+  const [carToView, setCarToView] = useState({});
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Nav />}>
+          <Route
+            index
+            element={
+              <Cartable
+                setCarToView={setCarToView}
+                setCarToEdit={setCarToEdit}
+              />
+            }
+          />
+          <Route path="/add" element={<AddCar />} />
+          <Route path="/update" element={<EditCar carToEdit={carToEdit} />} />
+          <Route path="/card" element={<Carcard car={carToView} />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
